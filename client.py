@@ -30,12 +30,18 @@ def pull_streamer_data(name, streamer_id, month_range):#爬取ID为streamer_id�
         v_data = pull_video(v)
         main_list.append(v_data)
      
-    f.write(json.dumps(v_data + c_data, ensure_ascii=False, indent=4).encode('UTF-8'))
+    f.write(json.dumps(main_list, ensure_ascii=False, indent=4).encode('UTF-8'))
     print(name + " saved")
+
+def pull_streamer(streamer_id):
+        streamer_list= json.load(open("data/VTuber.json"))['result']
+        for streamer in streamer_list:
+            if streamer_id == streamer["streamer_id"]:
+                pull_streamer_data(streamer["name"], streamer_id, month_range)
 
 # g = requests.post(group_url, headers=headers, data=json.dumps({'filter_state': '{"text": "", "inc_old_group": false, "retired" : "all", "following":false, "notifications": false}', 'page': 0, 'sort_by': 'subscriber_count'}))
 # streamer_list = json.loads(g.text)
 # data2 = json.dumps(streamer_list, sort_keys=True, indent=4, separators=(',', ': '))
 # open("VTuber.json", "w").write(data2)
 
-pull_video(y7_QWshqsw0)
+pull_video('y7_QWshqsw0')
