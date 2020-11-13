@@ -1,9 +1,7 @@
 from crawler import *
 from threading import Thread
 import json
-
-    
-video_id = 'xNxgQ3ZxUoU'
+ 
 month_range = [10, 10]
 
 def pull_video(video_id):    
@@ -44,4 +42,10 @@ def pull_streamer(streamer_id):
 # data2 = json.dumps(streamer_list, sort_keys=True, indent=4, separators=(',', ': '))
 # open("VTuber.json", "w").write(data2)
 
+
+# streamer_list= json.load(open("data/VTuber.json"))['result']
+# for streamer in streamer_list:
+#     streamer_name = streamer["name"]
+#     streamer_id = streamer["streamer_id"]
+#     Thread(target=pull_streamer_data, args=(streamer_name, streamer_id, month_range)).start()
 pull_video('y7_QWshqsw0')

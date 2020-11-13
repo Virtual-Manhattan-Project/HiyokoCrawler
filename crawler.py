@@ -1,14 +1,6 @@
-import os
-import sys
 import requests
-from bs4 import BeautifulSoup
-import io
-from threading import Thread
-import time
 import json
 from datetime import datetime
-
-group_id = "cover"
 
 month_range = [10, 10]
 year = 2020
@@ -74,10 +66,3 @@ def pull_chat_data(video_id):#获得ID为video_id的聊天的数据
 #获取指定Vtuver信息
 # g = requests.post(group_url, headers=headers, data=json.dumps({'filter_state': '{"selectedGroups": "cover", "text": "", "inc_old_group": false, "retired" : "all", "following":false, "notifications": false}', 'page': 0, 'sort_by': 'subscriber_count'}))
 # streamer_list = json.loads(g.text)
-
-# for streamer in streamer_list["result"]:    
-#     streamer_name = streamer["name"]
-#     streamer_id = streamer["streamer_id"]
-#     Thread(target=pull_streamer_data, args=(streamer_name, streamer_id, month_range)).start()
-    
-    
