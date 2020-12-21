@@ -15,7 +15,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleW
 ############
 
 
-def pull_video_id(streamer_id, month_range):  # 从新到旧,爬取从from_month月到to_month月的视频ID
+def pull_video_id(streamer_id, month_range):  # 爬取month_range内的视频ID
     video_id_list = []
     month_range.sort()
     for month in range(month_range[0], month_range[1] + 1):
@@ -23,7 +23,7 @@ def pull_video_id(streamer_id, month_range):  # 从新到旧,爬取从from_month
             {"streamer_id": streamer_id, "year": year, "month": month}))
 
         # open("fetch_history.json","w").write(r.text)
-        video_list = json.loads(r.text)
+        video_list = json.loads(r.encoding('utf-8'))
         for z in video_list["history_array"]:
             if z["event_type"] == "completed":
                 video_id_list.append(z["video_id"])
@@ -38,28 +38,13 @@ def pull_video_data(video_id):  # 获得ID为video_id的视频的数据
                       data=json.dumps({"video_id": video_id}))
     v_data = json.loads(l.text)
 
-    v_data.pop("ch_id")
-    v_data.pop("ch_type")
     v_data.pop("channel_misc")
-    v_data.pop("channel_name")
     v_data.pop("desc")
-    v_data.pop("event_type")
-    v_data.pop("groups")
-    v_data.pop("last_fetched")
-    v_data.pop("like_count")
-    v_data.pop("streamer_id")
-    v_data.pop("streamer_name")
     v_data.pop("streamer_name_en")
     v_data.pop("streamer_thumbnail_url")
     v_data.pop("thumbnail_url")
-    v_data.pop("view_count")
     v_data["video_date"] = datetime.utcfromtimestamp(
         v_data["video_date"] / 1000 + 32400).strftime('%Y-%m-%d %H:%M:%S')  # 时间戳转换为日本时间
-    try:  # 获得直播结束时的赞数以及赞/人数比
-        v_data["like_count_live_end"] = v_data["viewer_chart"]["like_count_list"][-1]
-       # v_data.pop("viewer_chart")
-    except TypeError:
-        pass
     print("pulled video " + video_id)
     return v_data
 
